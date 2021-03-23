@@ -3,3 +3,5 @@ config.php
 .idea
 LICENSE
 readme.old.md
+composer.json
+composer.lock
