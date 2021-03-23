@@ -1,0 +1,12 @@
+<?php
+//local config file for accessing the Database
+//be sure to NEVER upload this file to github
+//only share the config.php.dist file with placeholder values
+$host = "localhost";
+$username = "root";
+$password = "password";
+$database = "practice";
+
+//in order to use this file, remove the .dist extension
+
+
