@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
 
-
-class loader
+abstract class loader
 {
-
+    abstract function fetchAll() :? array;
+    abstract function fetchById(int $id) :? array;
 }
