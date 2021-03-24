@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require 'vendor/autoload.php';
+
 require 'models/Customer.php';
 require 'models/DbConnect.php';
 require 'loaders/CustomerLoader.php';
