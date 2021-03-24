@@ -9,7 +9,9 @@ require 'vendor/autoload.php';
 const PAGE = 'page';
 const HOME = 'home';
 
+$calculator = new \ComposerIncludeFiles\models\Calculator();
 $controller = new priceCalcController;
+
 if (isset($GET[PAGE]))
 {
     switch ($_GET[PAGE])

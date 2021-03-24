@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace test;
 require_once ("./vendor/autoload.php");
 
-//use ComposerIncludeFiles\models\Calculator;
+use Models\Calculator;
 use PHPUnit\Framework\TestCase;
 
 //use cmd command ./vendor/bin/phpunit test
