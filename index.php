@@ -1,19 +1,7 @@
 <?php
 declare(strict_types=1);
 
-//require models
-
-require_once 'models/Customer.php';
-require_once 'models/DbConnect.php';
-
-//require loaders
-require_once 'loaders/CustomerLoader.php';
-require_once 'loaders/loader.php';
-
-
-//require controllers
-require_once("controllers/controller.php");
-require_once("controllers/priceCalcController.php");
+require 'vendor/autoload.php';
 
 //navigational CONST values
 //these tend to be a better idea than to rely on re-using the same strings
