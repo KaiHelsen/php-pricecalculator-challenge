@@ -1,5 +1,5 @@
 <?php
-
+Namespace models;
 
 class Customer
 {
