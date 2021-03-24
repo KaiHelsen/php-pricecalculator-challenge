@@ -1,5 +1,5 @@
 <?php
-
+namespace controller;
 
 class priceCalcController extends controller
 {

@@ -1,13 +1,16 @@
 <?php
 declare(strict_types=1);
 
-require 'models/Customer.php';
-require 'models/DbConnect.php';
-require 'loaders/CustomerLoader.php';
-
-declare(strict_types=1);
-
 //require models
+
+require_once 'models/Customer.php';
+require_once 'models/DbConnect.php';
+
+//require loaders
+require_once 'loaders/CustomerLoader.php';
+require_once 'loaders/loader.php';
+
+
 //require controllers
 require_once("controllers/controller.php");
 require_once("controllers/priceCalcController.php");
@@ -31,6 +34,8 @@ if (isset($GET[PAGE]))
     }
 }
 
+
+echo loader::foo();
 $controller->render($_GET, $_POST);
 
 include("view/includes/header.php");
