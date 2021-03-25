@@ -9,8 +9,7 @@ require 'vendor/autoload.php';
 require 'controllers/controller.php';
 require 'controllers/priceCalcController.php';
 
-use Models\DiscountCalculator;
-use Loaders\DiscountLoader;
+use controller\priceCalcController;
 
 //navigational CONST values
 //these tend to be a better idea than to rely on re-using the same strings
@@ -18,29 +17,21 @@ use Loaders\DiscountLoader;
 const PAGE = 'page';
 const HOME = 'home';
 
-$connection = new DbConnect;
-$pdo = $connection->connect();
+$controller = new priceCalcController();
 
-var_dump(DiscountLoader::fetchGroupDiscounts(23, $pdo));
+if (isset($GET[PAGE]))
+{
+    switch ($_GET[PAGE])
+    {
+        //implement other cases here if appropriate
+        case(HOME):
+        default:
+            $controller = new priceCalcController();
+            break;
+    }
+}
 
-//$calculator = new DiscountCalculator();
-//$controller = new priceCalcController();
-//
-//if (isset($GET[PAGE]))
-//{
-//    switch ($_GET[PAGE])
-//    {
-//        //implement other cases here if appropriate
-//        case(HOME):
-//        default:
-//            $controller = new priceCalcController();
-//            break;
-//    }
-//}
-//
-//
-//echo loader::foo();
-//$controller->render($_GET, $_POST);
+$controller->render($_GET, $_POST);
 
 include("view/includes/header.php");
 

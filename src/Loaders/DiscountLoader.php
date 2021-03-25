@@ -2,11 +2,13 @@
 
 namespace Loaders;
 
-use Discount;
+use Models\Discount;
 
 class DiscountLoader
 {
-    public static function fetchGroupDiscounts (int $groupId, $pdo) {
+    /** @return Discount[] */
+    public static function fetchGroupDiscounts (int $groupId, $pdo): array
+    {
         $query = $pdo->prepare('with recursive discounts (id, fixed_discount, variable_discount, parent_id) as (
         select cg.id,
            cg.fixed_discount,

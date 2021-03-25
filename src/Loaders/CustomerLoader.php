@@ -2,7 +2,7 @@
 
 namespace CustomerLoader;
 
-use Discount;
+use Models\Discount;
 use Models\Customer;
 use PDO;
 
@@ -30,7 +30,10 @@ class CustomerLoader
             $rawCustomer['lastname'], $groupDiscounts, $customerDiscount);
     }
 
-    /** @Customer[] */
+    /** @Customer[]
+     * @param PDO $pdo
+     * @return array
+     */
     public static function fetchAllCustomers(PDO $pdo): array
     {
         $query = $pdo->query('select id, firstName, lastName from customer ORDER BY lastname, firstname');

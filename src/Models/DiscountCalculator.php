@@ -10,13 +10,11 @@ class DiscountCalculator
 
     public static function subtractVariable(int $total, int $variableAmount) : int
     {
-//        10.00 - 10.00 * 20 / 100 = 8.00
         return (int)$total - ($total * $variableAmount / 100);
     }
 
     public static function subtractFixed(int $total, int $fixedAmount) : int
     {
-//        10.00 - 5 * 100 = 10.00 - 5.00 = 5.00
         return ($total - ($fixedAmount * 100));
     }
 

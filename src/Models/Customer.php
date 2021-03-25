@@ -7,7 +7,6 @@ use PDO;
 
 class Customer
 {
-    private pdo $pdo;
     private int $id;
     private int $groupId;
     private string $firstName;
