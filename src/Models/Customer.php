@@ -45,6 +45,7 @@ class Customer
         return $this->groupId;
     }
 
+    /** @return Discount[] */
     public function getGroupDiscounts(): array
     {
         return $this->groupDiscounts;
@@ -54,6 +55,5 @@ class Customer
     {
         return $this->customerDiscount;
     }
-
 
 }
