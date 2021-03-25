@@ -132,7 +132,9 @@ class DiscountCalculator
             //if the customer discount is variable, we use the subtractmaxvariable function to easily find which of the two variable discounts is highest.
             if ($customerDiscount->isVariable())
             {
-                return round(max($customerDiscount->getAmount(), $groupDiscount->getAmount()),2);
+//                return round($this->calculate($price,max($customerDiscount->getAmount(), $groupDiscount->getAmount())),2);
+                $result = round(min($this->calculate($price, $customerDiscount), $this->calculate($price, $groupDiscount)),2);
+                return $result/100;
             }
         }
 

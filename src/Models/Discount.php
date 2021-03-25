@@ -16,7 +16,7 @@ class Discount
      * @param string $type
      * @param int $amount
      */
-    public function __construct(int $amount, string $type = self::FIXED)
+    private function __construct(int $amount, string $type = self::FIXED)
     {
         $this->type = $type;
         $this->amount = $amount;
