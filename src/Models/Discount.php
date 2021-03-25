@@ -5,8 +5,8 @@ namespace Models;
 
 class Discount
 {
-    public const VARIABLE = 'VARIABLE';
-    public const FIXED = 'FIXED';
+    private const VARIABLE = 'VARIABLE';
+    private const FIXED = 'FIXED';
 
     private string $type;
     private int $amount;
@@ -16,10 +16,20 @@ class Discount
      * @param string $type
      * @param int $amount
      */
-    public function __construct(int $amount, string $type = self::FIXED)
+    private function __construct(int $amount, string $type = self::FIXED)
     {
         $this->type = $type;
         $this->amount = $amount;
+    }
+
+    public static function newVariableDiscount(int $amount): Discount
+    {
+        return new Discount($amount, self::VARIABLE);
+    }
+
+    public static function newFixedDiscount(int $amount): Discount
+    {
+        return new Discount($amount, self::FIXED);
     }
 
     public function getType(): string

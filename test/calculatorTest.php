@@ -21,11 +21,11 @@ final class calculatorTest extends TestCase
     public function provideCalcTestData(): array
     {
         return [
-            [600, 1000, new Discount(4, Discount::FIXED), 'expect 600'],
-            [000, 1000, new Discount(12, Discount::FIXED), 'expect 0'],
-            [2000, 20000, new Discount(90, Discount::VARIABLE), 'expect 2000'],
-            [000, 20000, new Discount(110, Discount::VARIABLE), 'expect 0'],
-            [1000, 1000, new Discount(-2, Discount::FIXED), 'expect 1000']
+            [600, 1000, Discount::newFixedDiscount(4), 'expect 600'],
+            [000, 1000, Discount::newFixedDiscount(12), 'expect 0'],
+            [2000, 20000, Discount::newVariableDiscount(90), 'expect 2000'],
+            [000, 20000, Discount::newVariableDiscount(110), 'expect 0'],
+            [1000, 1000, Discount::newFixedDiscount(-2), 'expect 1000']
         ];
     }
 
@@ -33,8 +33,7 @@ final class calculatorTest extends TestCase
      * @dataProvider  provideCalcTestData
      * @param float $expectedResult
      * @param int $price
-     * @param int $discount
-     * @param string $type
+     * @param Discount $discount
      * @param string $expectMsg
      */
     public function testDiscountCalculator(float $expectedResult, int $price, Discount $discount, string $expectMsg): void
@@ -47,59 +46,65 @@ final class calculatorTest extends TestCase
     {
         return [
             //testcase 1
-            [new Discount(20, Discount::VARIABLE),
+            [
+                Discount::newVariableDiscount(20),
                 2000,
                 [
-                    new Discount(20, Discount::VARIABLE)
+                    Discount::newVariableDiscount(20)
                 ],
                 'expect 20, VARIABLE'],
 
             //testcase 2
-            [new Discount(10, Discount::FIXED),
+            [
+                Discount::newFixedDiscount(10),
                 2000,
                 [
-                    new Discount(10, Discount::FIXED)
+                    Discount::newFixedDiscount(10)
                 ],
                 'expect 10, FIXED'],
 
             //testcase 3
-            [new Discount(20, Discount::VARIABLE),
+            [
+                Discount::newVariableDiscount(20),
                 10000,
                 [
-                    new Discount(10, Discount::FIXED),
-                    new Discount(20, Discount::VARIABLE)
+                    Discount::newFixedDiscount(10),
+                    Discount::newVariableDiscount(20)
                 ],
                 'expect 20, VARIABLE'],
             //testcase 4
-            [new Discount(20, Discount::VARIABLE),
+            [
+                Discount::newVariableDiscount(20),
                 10000,
                 [
-                    new Discount(10, Discount::FIXED),
-                    new Discount(20, Discount::VARIABLE)
+                    Discount::newFixedDiscount(10),
+                    Discount::newVariableDiscount(20)
                 ],
                 'expect 20, VARIABLE'],
             //testcase 5
-            [new Discount(20, Discount::FIXED),
+            [
+                Discount::newFixedDiscount(20),
                 100,
                 [
-                    new Discount(10, Discount::FIXED),
-                    new Discount(5, Discount::FIXED),
-                    new Discount(5, Discount::FIXED),
-                    new Discount(18, Discount::VARIABLE),
-                    new Discount((int)null, Discount::VARIABLE),
-                    new Discount(10, Discount::VARIABLE)
+                    Discount::newFixedDiscount(10),
+                    Discount::newFixedDiscount(5),
+                    Discount::newFixedDiscount(5),
+                    Discount::newVariableDiscount(18),
+                    Discount::newVariableDiscount(12),
+                    Discount::newVariableDiscount(10)
                 ],
                 'expect 20, FIXED'],
             //testcase 6
-            [new Discount(18, Discount::VARIABLE),
+            [
+                Discount::newVariableDiscount(18),
                 10000,
                 [
-                    new Discount(10, Discount::FIXED),
-                    new Discount((int)null, Discount::FIXED),
-                    new Discount(5, Discount::FIXED),
-                    new Discount(18, Discount::VARIABLE),
-                    new Discount((int)null, Discount::VARIABLE),
-                    new Discount(10, Discount::VARIABLE)
+                    Discount::newFixedDiscount(10),
+                    Discount::newFixedDiscount((int)null),
+                    Discount::newFixedDiscount(5),
+                    Discount::newVariableDiscount(18),
+                    Discount::newVariableDiscount((int)null),
+                    Discount::newVariableDiscount(10)
                 ],
                 'expect 20, FIXED'],            //testcase 6
 //            [new Discount(15, Discount::FIXED),
@@ -115,8 +120,6 @@ final class calculatorTest extends TestCase
 //                'expect 15, FIXED'],
 
 
-
-
 //            [new Discount(10, Discount::FIXED), 20, 10, 25, 'expect 10, FIXED'],     //assuming that the function will pick the discount which gives the most value to the customer / gives the lowest end result
 //            [[10, DiscountCalculator::VARIABLE], 20, 2, 50, 'expect 10, VARIABLE'],
 //            [[15, DiscountCalculator::VARIABLE], 20, 2, 25, 'expect 15, VARIABLE'],
@@ -130,7 +133,7 @@ final class calculatorTest extends TestCase
      * @dataProvider  provideGroupDiscountTestData
      * @param Discount $expectedResult
      * @param int $price
-     * @param array $discounts
+     * @param Discount[] $discounts
      * @param string $expectMsg
      */
     public function testGroupDiscount(Discount $expectedResult, int $price, array $discounts, string $expectMsg): void
@@ -145,18 +148,54 @@ final class calculatorTest extends TestCase
             [
                 5.00,
                 2000,
-                new Discount(5, Discount::FIXED),
-                new Discount(10, DISCOUNT::FIXED),
+                Discount::newFixedDiscount(5),
+                Discount::newFixedDiscount(10),
                 'expect 500'
             ],
+            [
+                15.00,
+                4000,
+                Discount::newFixedDiscount(10),
+                Discount::newVariableDiscount(50),
+                'expect 15'
+            ],
+            [
+                0,
+                4000,
+                Discount::newFixedDiscount(40),
+                Discount::newVariableDiscount(100),
+                'expect 0'
+            ],
+            [
+                30.00,
+                4000,
+                Discount::newVariableDiscount(10),
+                Discount::newVariableDiscount(25),
+                'expect 30.00'
+            ],
+            [
+                40.00,
+                4000,
+                Discount::newVariableDiscount(0),
+                Discount::newVariableDiscount(0),
+                'expect 40.00'
+            ],
+            [
+                27.00,
+                4000,
+                Discount::newVariableDiscount(25),
+                Discount::newFixedDiscount(4),
+                'expect 27.00'
+            ],
+            [
+                25.20,
+                4000,
+                Discount::newVariableDiscount(30),
+                Discount::newFixedDiscount(4),
+                'expect 27.00'
+            ],
 
-//            [15, 40, 10, 'FIXED', 50, 'VARIABLE', 'expect 15'],
-//            [0, 40, 40, 'FIXED', 100, 'VARIABLE', 'expect 0'],
-//            [30, 40, 10, 'VARIABLE', 25, 'VARIABLE', 'expect 30'],
-//            [40, 40, 0, 'VARIABLE', 0, 'VARIABLE', 'expect 40'],
 ////            [40,40,0, 'VARIABLE', 16, 'SMURF', 'expect error: you dun goofed'],
-//            [27, 40, 25, 'VARIABLE', 4, 'FIXED', 'expect 27'],
-//            [25.2, 40, 30, 'VARIABLE', 4, 'FIXED', 'expect 25.2'],
 
         ];
     }
@@ -165,13 +204,11 @@ final class calculatorTest extends TestCase
      * @dataProvider provideFullDiscountTestData
      * @param float $expectedResult
      * @param int $price
-     * @param float $groupDiscount
-     * @param string $groupDiscountType
-     * @param float $customerDiscount
-     * @param string $customerDiscountType
+     * @param Discount $groupDiscount
+     * @param Discount $customerDiscount
      * @param string $expectMsg
      */
-    public function testFullDiscountCalculation(float $expectedResult, int $price, Discount $groupDiscount,Discount $customerDiscount, string $expectMsg): void
+    public function testFullDiscountCalculation(float $expectedResult, int $price, Discount $groupDiscount, Discount $customerDiscount, string $expectMsg): void
     {
         $calculator = new DiscountCalculator;
         self::assertEquals($expectedResult, $calculator->calculateCustomerDiscount($price, $groupDiscount, $customerDiscount), $expectMsg);
