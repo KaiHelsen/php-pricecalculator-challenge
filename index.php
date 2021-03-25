@@ -31,13 +31,6 @@ if (isset($GET[PAGE]))
     }
 }
 
+
 $controller->render($_GET, $_POST);
 
-include("view/includes/header.php");
-
-?>
-
-<h1>Test</h1>
-
-<?php
-include("view/includes/footer.php");

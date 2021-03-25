@@ -6,7 +6,11 @@ use Models\Discount;
 
 class DiscountLoader
 {
-    /** @return Discount[] */
+    /**
+     * @param int $groupId
+     * @param $pdo
+     * @return Discount[]
+     */
     public static function fetchGroupDiscounts (int $groupId, $pdo): array
     {
         $query = $pdo->prepare('with recursive discounts (id, fixed_discount, variable_discount, parent_id) as (
@@ -34,13 +38,11 @@ from discounts');
         $groupDiscounts = [];
 
         foreach ($rawDiscounts as $discount) {
-            if ($discount['fixed_discount'] === null)  {
-                $groupDiscounts[] = new Discount(Discount::VARIABLE,
-                    (int)[$discount['variable_discount']]);
+            if ($discount['fixed_discount'] !== null)  {
+                $groupDiscounts[] = Discount::newFixedDiscount((int)$discount['fixed_discount']);
             }
             else {
-                $groupDiscounts[] = new Discount(Discount::FIXED,
-                    (int)[$discount['fixed_discount']]);
+                $groupDiscounts[] = Discount::newVariableDiscount((int)$discount['variable_discount']);
             }
         }
 

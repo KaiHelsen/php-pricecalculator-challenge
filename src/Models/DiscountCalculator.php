@@ -17,7 +17,7 @@ class DiscountCalculator
     public static function subtractVariable(int $total, int $variableAmount) : int
     {
         //here we subtract the variable discount (a percentage) from the total value.
-        return (int)$total - ($total * $variableAmount / 100);
+        return (int)($total - ($total * $variableAmount / 100));
     }
 
     /**
@@ -42,7 +42,7 @@ class DiscountCalculator
      * @param Discount $discount
      * @return float|int
      */
-    public function calculate(int $price, Discount $discount): float|int
+    public static function calculate(int $price, Discount $discount): float|int
     {
         $discountValue = max(0, $discount->getAmount());
         if($discount->isFixed())
@@ -67,7 +67,8 @@ class DiscountCalculator
      * @param array $groupDiscounts
      * @return Discount
      */
-    public function calculateGroupDiscount(int $price, array $groupDiscounts): Discount
+    public static function calculateGroupDiscount(int $price, array $groupDiscounts): 
+Discount
     {
         //first, we have to make sure the price is not a negative value or zero.
         if($price <= 0){
@@ -109,14 +110,15 @@ class DiscountCalculator
      * @param Discount $customerDiscount
      * @return float final price in euros/dollars
      */
-    public function calculateCustomerDiscount(int $price, Discount $groupDiscount, Discount $customerDiscount): float
+    public static function calculateCustomerDiscount(int $price, Discount $groupDiscount, 
+Discount $customerDiscount): float
     {
         //if the group discount is Fixed, it will always be the first to be calculated.
         //so it doesn't matter if the customerdiscount is fixed or variable, it can always be done last.
         if ($groupDiscount->isFixed())
         {
-                $result = $this->calculate($price, $groupDiscount);
-                $result = $this->calculate($result, $customerDiscount);
+                $result = self::calculate($price, $groupDiscount);
+                $result = self::calculate($result, $customerDiscount);
                 return $result/100;
         }
 
@@ -126,15 +128,16 @@ class DiscountCalculator
             //if the customer discount is fixed, the customer discount is calculated first, and the group discount second.
             if ($customerDiscount->isFixed())
             {
-                $result = $this->calculate($price, $customerDiscount);
-                $result = $this->calculate($result, $groupDiscount);
+                $result = self::calculate($price, $customerDiscount);
+                $result = self::calculate($result, $groupDiscount);
                 return $result/100;
             }
             //if the customer discount is variable, we use the subtractmaxvariable function to easily find which of the two variable discounts is highest.
             if ($customerDiscount->isVariable())
             {
-//                return round($this->calculate($price,max($customerDiscount->getAmount(), $groupDiscount->getAmount())),2);
-                $result = round(min($this->calculate($price, $customerDiscount), $this->calculate($price, $groupDiscount)),2);
+//                return round(self::calculate($price,max($customerDiscount->getAmount(), $groupDiscount->getAmount())),2);
+                $result = round(min(self::calculate($price, $customerDiscount), 
+                    self::calculate($price, $groupDiscount)),2);
                 return $result/100;
             }
         }
