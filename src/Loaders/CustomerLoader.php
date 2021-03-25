@@ -1,30 +1,39 @@
 <?php
 
+namespace CustomerLoader;
+
+use Discount;
+use Models\Customer;
+use PDO;
 
 class CustomerLoader
 {
-    public static function getCustomer(int $id, PDO $pdo): Customer
+    public static function fetchCustomer(int $id, PDO $pdo): Customer
     {
         $query = $pdo->prepare('select * from customer where id = :id');
         $query->bindValue('id', $id);
         $query->execute();
         $rawCustomer = $query->fetch();
 
-        return new Customer($rawCustomer['id'], $rawCustomer['firstname'], $rawCustomer['lastname'], $rawCustomer['fixed_discount'], $rawCustomer['variable_discount']);
+        if ($rawCustomer['fixed_discount'] === null)  {
+            $customerDiscount = new Discount(Discount::VARIABLE,
+                (int)[$rawCustomer['variable_discount']]);
+        }
+        else {
+            $customerDiscount = new Discount(Discount::FIXED,
+                (int)[$rawCustomer['fixed_discount']]);
+        }
+
+        $groupDiscounts = \Loaders\DiscountLoader::fetchGroupDiscounts($rawCustomer['group_id'], $pdo);
+
+        return new Customer($rawCustomer['id'], $rawCustomer['group_id'], $rawCustomer['firstname'],
+            $rawCustomer['lastname'], $groupDiscounts, $customerDiscount);
     }
 
     /** @Customer[] */
-    public static function getAllCustomers(PDO $pdo): array
+    public static function fetchAllCustomers(PDO $pdo): array
     {
-        $query = $pdo->query('select * from customer ORDER BY lastname, firstname');
-        $rawCustomers = $query->fetchAll();
-
-        $customers = [];
-        foreach ($rawCustomers as $customer) {
-            $customers[] = new Customer($customer['id'], $customer['firstname'],
-                $customer['lastname'], $customer['fixed_discount'], $customer['variable_discount']);
-        }
-
-        return $customers;
+        $query = $pdo->query('select id, firstName, lastName from customer ORDER BY lastname, firstname');
+        return $query->fetchAll();
     }
 }

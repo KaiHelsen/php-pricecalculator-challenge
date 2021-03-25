@@ -47,7 +47,7 @@ class DiscountCalculator
         return max($discounts);
     }
 
-    public function calculateGroupDiscount(int $price, float $fixedDiscount, float $variableDiscount): array
+    public function calculateGroupDiscount(int $price, array $groupDiscounts): Discount
     {
         $fixedResult = $this->calculate($price, $fixedDiscount, self::FIXED);
         $variableResult = $this->calculate($price, $variableDiscount, self::VARIABLE);
@@ -69,7 +69,6 @@ class DiscountCalculator
             {
                 $result = $price - $groupDiscount;
                 return $result - ($result * $customerDiscount / 100);
-
             }
         }
 
@@ -79,7 +78,6 @@ class DiscountCalculator
             {
                 $result = $price - $customerDiscount;
                 return $result - ($result * $groupDiscount / 100);
-
             }
             if($customerDiscountType === self::VARIABLE)
             {
@@ -89,7 +87,6 @@ class DiscountCalculator
         }
 
         throw new \InvalidArgumentException("you dun goofed!");
-
 
     }
 }

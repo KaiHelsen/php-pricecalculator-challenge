@@ -1,21 +1,18 @@
 <?php
 
 
-class DbConnect extends PDO
+class DbConnect
 {
-    const DB_HOST = 'localhost';
-    const DB_USERNAME = 'becode';
-    const DB_PASSWORD = 'becode123';
-    const DB_NAME = 'pricecalculator';
+    private const HOST = "localhost";
+    private string $user = "becode";
+    private string $pwd = "becode123";
+    private string $dbName = "pricecalculator";
 
-    function __construct()
+    public function connect() : PDO
     {
-        $driverOptions = [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ];
-
-        parent::__construct('mysql:host=' . self::DB_HOST . ';dbname=' . self::DB_NAME, self::DB_USERNAME, self::DB_PASSWORD, $driverOptions);
+        $dsn = 'mysql:host=' . self::HOST . ';dbname=' . $this->dbName;
+        $pdo = new PDO($dsn, $this->user, $this->pwd);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        return $pdo;
     }
 }
