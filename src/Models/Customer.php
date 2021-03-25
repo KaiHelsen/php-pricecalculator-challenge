@@ -2,7 +2,7 @@
 
 namespace models;
 
-use Discount;
+use Models\Discount;
 use PDO;
 
 class Customer
