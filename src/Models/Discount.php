@@ -29,6 +29,4 @@ class Discount
     {
         return $this->amount;
     }
-
-
 }

@@ -2,6 +2,8 @@
 
 namespace Loaders;
 
+use Discount;
+
 class DiscountLoader
 {
     public static function fetchGroupDiscounts (int $groupId, $pdo) {
