@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomerLoader;
+namespace Loaders;
 
 use Models\Discount;
 use Models\Customer;
@@ -15,13 +15,11 @@ class CustomerLoader
         $query->execute();
         $rawCustomer = $query->fetch();
 
-        if ($rawCustomer['fixed_discount'] === null)  {
-            $customerDiscount = new Discount(Discount::VARIABLE,
-                (int)[$rawCustomer['variable_discount']]);
+        if ($rawCustomer['fixed_discount'] !== null)  {
+            $customerDiscount = Discount::newFixedDiscount((int)[$rawCustomer['variable_discount']]);
         }
         else {
-            $customerDiscount = new Discount(Discount::FIXED,
-                (int)[$rawCustomer['fixed_discount']]);
+            $customerDiscount = Discount::newVariableDiscount((int)[$rawCustomer['fixed_discount']]);
         }
 
         $groupDiscounts = \Loaders\DiscountLoader::fetchGroupDiscounts($rawCustomer['group_id'], $pdo);
