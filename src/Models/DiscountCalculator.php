@@ -7,81 +7,96 @@ use function PHPUnit\Framework\throwException;
 
 class DiscountCalculator
 {
-    const FIXED = 'FIXED';
-    const VARIABLE = 'VARIABLE';
+
+    public static function subtractVariable(int $total, int $variableAmount) : int
+    {
+//        10.00 - 10.00 * 20 / 100 = 8.00
+        return (int)$total - ($total * $variableAmount / 100);
+    }
+
+    public static function subtractFixed(int $total, int $fixedAmount) : int
+    {
+//        10.00 - 5 * 100 = 10.00 - 5.00 = 5.00
+        return ($total - ($fixedAmount * 100));
+    }
+
+    private static function subtractMaxVariable(int $total, int $firstVariableAmount, int $secondVariableAmount) : int
+    {
+        return min(self::subtractVariable($total, $firstVariableAmount), self::subtractVariable($total, $secondVariableAmount));
+    }
 
     /**
      * calculates discount on a price
      *
      * @param int $price
-     * @param float $discount
-     * @param string $type
-     * @return float
+     * @param Discount $discount
+     * @return float|int
      */
-    public function calculate(int $price, float $discount, string $type): float
+    public function calculate(int $price, Discount $discount): float|int
     {
-        $result = $price;
-        $discount = (Max(0, $discount));
-        switch ($type)
+        $discountValue = max(0, $discount->getAMount());
+        if($discount->isFixed())
         {
-            case (self::FIXED):
-                $result = $price - $discount;
-                break;
-            case (self::VARIABLE):
-                $result = $price - (($price * $discount) / 100);
-                break;
-            default:
-                //no recognized command! throw exception!
-                throw new \InvalidArgumentException(sprintf('incorrect calculation type %s entered. %s or %s expected.', $type, self::FIXED, self::VARIABLE));
+            return max(0,self::subtractFixed($price, $discountValue));
         }
-        return (Max($result, 0));
-    }
 
-    public function addDiscounts(array $discounts): float
-    {
-        return array_sum($discounts);
-    }
+        if($discount->isVariable())
+        {
+            return max(0,self::subtractVariable($price, $discountValue));
+        }
 
-    public function getMaxVariable(array $discounts): float
-    {
-        return max($discounts);
+        throw new \InvalidArgumentException('Discount not of correct type');
     }
 
     public function calculateGroupDiscount(int $price, array $groupDiscounts): Discount
     {
-        $fixedResult = $this->calculate($price, $fixedDiscount, self::FIXED);
-        $variableResult = $this->calculate($price, $variableDiscount, self::VARIABLE);
-        if ($fixedResult > $variableResult)
-        {
-            return [$variableResult,self::VARIABLE];
+        if($price <= 0){
+            throw new \RangeException('price cannot be zero or less than zero');
         }
-        return [$fixedResult,self::FIXED];
+        $variableDiscount = 0;
+        $fixedDiscount = 0;
+
+        foreach ($groupDiscounts as $discount)
+        {
+
+            if($discount->isVariable())
+            {
+                $variableDiscount = max($variableDiscount, $discount->getAmount());
+            }
+
+            if($discount->isFixed())
+            {
+                $fixedDiscount += $discount->getAmount();
+            }
+        }
+        if (self::subtractFixed($price, $fixedDiscount) < self::subtractVariable($price, $variableDiscount))
+        {
+            return new Discount($fixedDiscount, Discount::FIXED);
+        }
+        return new Discount($variableDiscount, Discount::VARIABLE);
     }
 
-    public function calculateCustomerDiscount(int $price, float $groupDiscount, string $groupDiscountType, float $customerDiscount, string $customerDiscountType): float
+    public function calculateCustomerDiscount(int $price, Discount $groupDiscount, Discount $customerDiscount): float
     {
-        if($groupDiscountType === self::FIXED){
-            if($customerDiscountType === self::FIXED)
-            {
-                return $price - $groupDiscount - $customerDiscount;
-            }
-            if($customerDiscountType === self::VARIABLE)
-            {
-                $result = $price - $groupDiscount;
-                return $result - ($result * $customerDiscount / 100);
-            }
+
+        if ($groupDiscount->isFixed())
+        {
+                $result = $this->calculate($price, $groupDiscount);
+                $result = $this->calculate($result, $customerDiscount);
+                return $result/100;
         }
 
-        if($groupDiscountType === self::VARIABLE)
+        if ($groupDiscount->isVariable())
         {
-            if($customerDiscountType === self::FIXED)
+            if ($customerDiscount->isFixed())
             {
-                $result = $price - $customerDiscount;
-                return $result - ($result * $groupDiscount / 100);
+                $result = $this->calculate($price, $customerDiscount);
+                $result = $this->calculate($result, $groupDiscount);
+                return $result/100;
             }
-            if($customerDiscountType === self::VARIABLE)
+            if ($customerDiscount->isVariable())
             {
-                return $price - ($price * (max($groupDiscount, $customerDiscount)) / 100);
+                return round(self::subtractMaxVariable($price, $customerDiscount->getAmount(), $groupDiscount->getAmount())/100, 2);
             }
 
         }

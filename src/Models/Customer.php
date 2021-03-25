@@ -2,7 +2,7 @@
 
 namespace models;
 
-use Discount;
+use Models\Discount;
 use PDO;
 
 class Customer
@@ -45,6 +45,7 @@ class Customer
         return $this->groupId;
     }
 
+    /** @return Discount[] */
     public function getGroupDiscounts(): array
     {
         return $this->groupDiscounts;
