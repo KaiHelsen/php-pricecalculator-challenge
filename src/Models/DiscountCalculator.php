@@ -96,8 +96,9 @@ class DiscountCalculator
         //based on the lowest price, we return a discount object that gives us the lowest possible price.
         if (self::subtractFixed($price, $fixedDiscount) < self::subtractVariable($price, $variableDiscount))
         {
-            return new Discount($fixedDiscount, Discount::FIXED);
+            return Discount::newFixedDiscount($fixedDiscount);
         }
+
         return Discount::newVariableDiscount($variableDiscount);
     }
 
@@ -140,6 +141,5 @@ class DiscountCalculator
 
         //if after all this, we have not returned a price yet, then something has obviously gone wrong and we throw an exception.
         throw new \InvalidArgumentException("you dun goofed!");
-
     }
 }
