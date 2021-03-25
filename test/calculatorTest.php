@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace test;
-require_once("./vendor/autoload.php");
+require_once ("./vendor/autoload.php");
 
 use Models\DiscountCalculator;
 use PHPUnit\Framework\TestCase;
@@ -112,6 +112,5 @@ final class calculatorTest extends TestCase
         $calculator = new DiscountCalculator;
         self::assertEquals(20, $calculator->getMaxVariable([20, '10', 16, 2.5, 19.9, -25]), 'expect 20');
     }
-
 
 }

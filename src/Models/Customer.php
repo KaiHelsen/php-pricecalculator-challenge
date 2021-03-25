@@ -1,22 +1,28 @@
 <?php
-Namespace models;
+
+namespace models;
+
+use Discount;
+use PDO;
 
 class Customer
 {
     private pdo $pdo;
     private int $id;
+    private int $groupId;
     private string $firstName;
     private string $lastName;
-    private ?int $fixedDiscount;
-    private ?int $variableDiscount;
+    private array $groupDiscounts;
+    private Discount $customerDiscount;
 
-    public function __construct(int $id, string $firstName, string $lastName, ?int $fixedDiscount, ?int $variableDiscount)
+    public function __construct(int $id, int $groupId, string $firstName, string $lastName, array $groupDiscounts, Discount $customerDiscount)
     {
         $this->id = $id;
+        $this->groupId = $groupId;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
-        $this->fixedDiscount = $fixedDiscount;
-        $this->variableDiscount = $variableDiscount;
+        $this->groupDiscounts = $groupDiscounts;
+        $this->customerDiscount = $customerDiscount;
     }
 
     public function getId(): int
@@ -34,13 +40,20 @@ class Customer
         return $this->lastName;
     }
 
-    public function getFixedDiscount(): ?int
+    public function getGroupId(): int
     {
-        return $this->fixedDiscount;
+        return $this->groupId;
     }
 
-    public function getVariableDiscount(): ?int
+    public function getGroupDiscounts(): array
     {
-        return $this->variableDiscount;
+        return $this->groupDiscounts;
     }
+
+    public function getCustomerDiscount(): Discount
+    {
+        return $this->customerDiscount;
+    }
+
+
 }

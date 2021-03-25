@@ -6,26 +6,32 @@ namespace Models;
 
 class Discount
 {
-    public const FIXED = 'FIXED';
     public const VARIABLE = 'VARIABLE';
-    private int $discount;
+    public const FIXED = 'FIXED';
+
     private string $type;
+    private int $amount;
 
-    public function __construct(int $discount, string $type){
-        $this->discount = $discount;
-        $this->type = $type;
-    }
-
-    public function isVariable() : bool{
-        return $this->type === self::VARIABLE;
-    }
-
-    public function isFixed() : bool{
-        return $this->type === self::FIXED;
-    }
-
-    public function getDiscount() : float
+    /**
+     * Discount constructor.
+     * @param string $type
+     * @param int $amount
+     */
+    public function __construct(string $type, int $amount)
     {
-        return $this->discount;
+        $this->type = $type;
+        $this->amount = $amount;
     }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+
+
 }
