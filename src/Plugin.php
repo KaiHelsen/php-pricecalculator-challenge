@@ -84,7 +84,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             // only include CompletePackages
             if ($package instanceof CompletePackage) {
 
-                // get this package extra config values
+                // get this package extra Config values
                 $packageConfig = $package->getExtra();
 
                 // if has include files

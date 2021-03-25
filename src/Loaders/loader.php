@@ -13,7 +13,7 @@ abstract class loader
 
     protected static function dbConnect() :? array
     {
-        include ('config/config.php');
+        include('Config/config.php');
         $driverOptions = [
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

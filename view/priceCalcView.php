@@ -14,6 +14,7 @@ var_dump($_POST);
         </tr>
         <tr>
             <td>
+                <?php if(isset($allCustomers, $allProducts)):?>
                 <select name="customerId" id="customerId">
                     <?php foreach ($allCustomers as $customer): ?>
                         <option value="<?php echo $customer['id']; ?>"><?php echo
@@ -26,7 +27,8 @@ var_dump($_POST);
                 <select name="productId" id="productId">
                     <?php foreach ($allProducts as $product): ?>
                         <option value="<?php echo $product->getId(); ?>"><?php echo $product->getName(); ?></option>
-                    <?php endforeach; ?>
+                    <?php endforeach;
+                    endif;?>
                 </select>
             </td>
             <td>
