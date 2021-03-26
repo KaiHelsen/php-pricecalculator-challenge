@@ -32,11 +32,6 @@ class Discount
         return new Discount($amount, self::FIXED);
     }
 
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
     public function getAmount(): int
     {
         return $this->amount;

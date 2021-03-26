@@ -8,16 +8,14 @@ use PDO;
 class Customer
 {
     private int $id;
-    private int $groupId;
     private string $firstName;
     private string $lastName;
     private array $groupDiscounts;
     private Discount $customerDiscount;
 
-    public function __construct(int $id, int $groupId, string $firstName, string $lastName, array $groupDiscounts, Discount $customerDiscount)
+    public function __construct(int $id, string $firstName, string $lastName, array $groupDiscounts, Discount $customerDiscount)
     {
         $this->id = $id;
-        $this->groupId = $groupId;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->groupDiscounts = $groupDiscounts;
@@ -37,11 +35,6 @@ class Customer
     public function getLastName(): string
     {
         return $this->lastName;
-    }
-
-    public function getGroupId(): int
-    {
-        return $this->groupId;
     }
 
     /** @return Discount[] */

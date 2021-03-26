@@ -28,19 +28,18 @@ class priceCalcController extends controller
         // TODO: Implement render() method.
 
         $allCustomers = CustomerLoader::fetchAllCustomers($this->pdo);
-        $allProducts = \ProductLoader::getAllProducts($this->pdo);
+        $allProducts = \ProductLoader::fetchAllProducts($this->pdo);
 
-        if (isset($_POST['customerId']))
+        if (isset($GET['customerId']))
         {
-            $customer = CustomerLoader::fetchCustomer((int)$_POST['customerId'], $this->pdo);
-            $product = \ProductLoader::getProduct((int)$_POST['productId'], $this->pdo);
+            $customer = CustomerLoader::fetchCustomer((int)$GET['customerId'], $this->pdo);
+            $product = \ProductLoader::fetchProduct((int)$GET['productId'], $this->pdo);
 
             $groupDiscount = DiscountCalculator::calculateGroupDiscount((int)$product->getPrice
             (), $customer->getGroupDiscounts());
 
             $newPrice = DiscountCalculator::calculateCustomerDiscount
             ($product->getPrice(), $groupDiscount, $customer->getCustomerDiscount());
-
         }
 
         require("view/priceCalcView.php");

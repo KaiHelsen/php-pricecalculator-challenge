@@ -3,7 +3,7 @@
 
 class ProductLoader
 {
-    public static function getProduct(int $id, PDO $pdo): Product
+    public static function fetchProduct(int $id, PDO $pdo): Product
     {
         $query = $pdo->prepare('select * from product where id = :id');
         $query->bindValue('id', $id);
@@ -14,7 +14,7 @@ class ProductLoader
     }
 
     /** @Product[] */
-    public static function getAllProducts(PDO $pdo): array
+    public static function fetchAllProducts(PDO $pdo): array
     {
         $query = $pdo->query('select * from product ORDER BY name');
         $rawProducts = $query->fetchAll();
@@ -27,5 +27,4 @@ class ProductLoader
 
         return $products;
     }
-
 }

@@ -1,5 +1,5 @@
 /vendor
-config.php
+Config/config.php
 .idea
 LICENSE
 readme.old.md

@@ -39,8 +39,6 @@ declare(strict_types=1);
 </form>
 
 <?php if(isset($newPrice)): ?>
-<?php echo "customer Discount: " . $customerDiscountVal . ' of type ';
-echo "group discount: " . $groupDiscountVal; ?>
 <p><?php echo $newPrice ?></p>
 
 <?php endif; ?>
