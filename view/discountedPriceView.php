@@ -23,7 +23,7 @@ const EURO = '&euro; '
     <tr class="text-center">
         <td><?php echo '&euro; ' . number_format(($product->getPrice() / 100), 2) ?></td>
         <td><?php echo $quantity . " pieces"; ?></td>
-        <td><?php echo '&euro; ' . number_format((float)$bulkPriceDsp, 2); ?></td>
+        <td><?php echo '&euro; '. number_format((float)$bulkPriceDsp, 2);?></td>
         <td><?php
             echo ($customer->getCustomerDiscount()->isFixed()) ? EURO : '';
             echo number_format($customer->getCustomerDiscount()->getAmount(), 2);
