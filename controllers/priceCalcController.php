@@ -32,16 +32,24 @@ class priceCalcController extends controller
 
         $allCustomers = CustomerLoader::fetchAllCustomers($this->pdo);
         $allProducts = ProductLoader::fetchAllProducts($this->pdo);
-        $quantity = $GET[QUANTITY_TAG] ?? 1;
+        $quantity = $GET[QUANTITY_TAG] ? (int)$GET[QUANTITY_TAG] : 1;
+
+        DiscountCalculator::calculateBulkDiscount(100,100);
 
         if (isset($GET[CUSTOMER_TAG], $GET[PRODUCT_TAG])) {
             $customer = CustomerLoader::fetchCustomer((int)$GET[CUSTOMER_TAG], $this->pdo);
             $product = ProductLoader::fetchProduct((int)$GET[PRODUCT_TAG], $this->pdo);
 
-            $groupDiscount = DiscountCalculator::calculateGroupDiscount($product->getPrice(), $customer->getGroupDiscounts());
+            //calculate bulk price first
+            $bulkPrice = DiscountCalculator::calculateBulkDiscount($quantity, $product->getPrice());
+            $bulkPriceDsp = $bulkPrice / 100;
 
-            $newPrice = DiscountCalculator::calculateCustomerDiscount
-            ($product->getPrice(), $groupDiscount, $customer->getCustomerDiscount());
+
+//            $groupDiscount = DiscountCalculator::calculateGroupDiscount($product->getPrice(), $customer->getGroupDiscounts());
+            $groupDiscount = DiscountCalculator::calculateGroupDiscount($bulkPrice, $customer->getGroupDiscounts());
+
+//            $newPrice = DiscountCalculator::calculateCustomerDiscount($product->getPrice(), $groupDiscount, $customer->getCustomerDiscount());
+            $newPrice = DiscountCalculator::calculateCustomerDiscount($bulkPrice, $groupDiscount, $customer->getCustomerDiscount());
         }
 
         require("view/includes/header.php");

@@ -11,7 +11,9 @@ const EURO = '&euro; '
 <table class="table mx-0, my-5">
     <thead class="text-center">
     <tr>
-        <th scope="col">Price</th>
+        <th scope="col">Price per Item</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Bulk Price</th>
         <th scope="col">Personal Discount</th>
         <th scope="col">Group Discount</th>
         <th scope="col">New Price</th>
@@ -19,18 +21,20 @@ const EURO = '&euro; '
     </thead>
     <tbody>
     <tr class="text-center">
-        <td><?php echo '&euro; ' . $product->getPrice() / 100 ?></td>
+        <td><?php echo '&euro; ' . number_format(($product->getPrice() / 100), 2) ?></td>
+        <td><?php echo $quantity . " pieces"; ?></td>
+        <td><?php echo '&euro; '. number_format((float)$bulkPriceDsp, 2);?></td>
         <td><?php
             echo ($customer->getCustomerDiscount()->isFixed()) ? EURO : '';
-            echo $customer->getCustomerDiscount()->getAmount();
+            echo number_format($customer->getCustomerDiscount()->getAmount(), 2);
             echo ($customer->getCustomerDiscount()->isVariable()) ? PERCENT : '';
             ?></td>
         <td><?php
             echo ($groupDiscount->isFixed()) ? EURO : '';
-            echo $groupDiscount->getAmount();
+            echo number_format($groupDiscount->getAmount(), 2);
             echo ($groupDiscount->isVariable()) ? PERCENT : '';
             ?></td>
-        <td><?php echo '&euro; ' . $newPrice ?></td>
+        <td><?php echo '&euro; ' . number_format($newPrice, 2); ?></td>
     </tr>
     </tbody>
 </table>

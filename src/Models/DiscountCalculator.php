@@ -154,7 +154,7 @@ class DiscountCalculator
      */
     public static function calculateBulkDiscount(int $quantity, int $price): int
     {
-        $bracket = floor(log10($quantity));
+        $bracket = (int)floor(log10(abs($quantity)));
 
         //I've never used a match before but this looks really convenient
         return match ($bracket)

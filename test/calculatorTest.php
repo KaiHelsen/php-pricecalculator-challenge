@@ -240,6 +240,7 @@ public function provideBulkDiscountData() : array
         [200, 20, 10, 'expect 200'],
         [1000, 100, 10, 'expect 1000'],
         [9000, 100, 100, 'expect 9000'],
+        [100, 100, 1, 'expect 100'],
     ];
 
 }
@@ -253,6 +254,7 @@ public function provideBulkDiscountData() : array
     public function testCalculateBulkDiscount(int $expectedResult, int $price, int $quantity, string $expectMsg) : void
     {
         self::assertEquals($expectedResult, DiscountCalculator::calculateBulkDiscount($quantity, $price), $expectMsg);
+        //note to self: if a var_dump() is placed in the function we are testing, it will show up in the terminal, giving us another layer of transparency
     }
 }
 
