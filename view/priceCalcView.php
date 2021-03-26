@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 //var_dump($allCustomers);
-//var_dump($_POST);
+//var_dump($_GET);
 ?>
 <h1>This is where we calculate things!</h1>
 
@@ -35,8 +35,6 @@ declare(strict_types=1);
             </td>
         </tr>
     </table>
-
-</form>
 
 <?php if(isset($newPrice)): ?>
 <p><?php echo $newPrice ?></p>
