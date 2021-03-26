@@ -38,7 +38,7 @@ class priceCalcController extends controller
             $customer = CustomerLoader::fetchCustomer((int)$GET[CUSTOMER_TAG], $this->pdo);
             $product = ProductLoader::fetchProduct((int)$GET[PRODUCT_TAG], $this->pdo);
 
-            $groupDiscount = DiscountCalculator::calculateGroupDiscount($quantity, $product->getPrice(), $customer->getGroupDiscounts());
+            $groupDiscount = DiscountCalculator::calculateGroupDiscount($product->getPrice(), $customer->getGroupDiscounts());
 
             $newPrice = DiscountCalculator::calculateCustomerDiscount
             ($product->getPrice(), $groupDiscount, $customer->getCustomerDiscount());
