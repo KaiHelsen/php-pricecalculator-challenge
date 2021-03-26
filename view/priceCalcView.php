@@ -39,7 +39,9 @@ declare(strict_types=1);
                 </select>
             </td>
             <td>
-                <input type="number" name="quantity" id="quantity" value="<?php echo $quantity; ?>" min="1" max="40000" required>
+                <input class="form-control" type="number" name="quantity" id="quantity"
+                       value="<?php echo
+                $quantity; ?>" min="1" max="40000" required>
             </td>
             <td>
                 <button type="submit" class="btn btn-info">Submit!</button>
