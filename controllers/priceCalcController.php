@@ -31,6 +31,7 @@ class priceCalcController extends controller
     {
         // TODO: Implement render() method.
 
+
         $allCustomers = CustomerLoader::fetchAllCustomers($this->pdo);
         $allProducts = ProductLoader::fetchAllProducts($this->pdo);
 
@@ -43,12 +44,17 @@ class priceCalcController extends controller
 
             $newPrice = DiscountCalculator::calculateCustomerDiscount
             ($product->getPrice(), $groupDiscount, $customer->getCustomerDiscount());
+
+            $show = true;
         }
 
-        require ("view/includes/header.php");
+        require("view/includes/header.php");
         require("view/priceCalcView.php");
-
-        require ("view/includes/footer.php");
+        if (isset($show))
+        {
+            require("view/discountedPriceView.php");
+        }
+        require("view/includes/footer.php");
     }
 
 }
