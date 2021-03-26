@@ -34,3 +34,30 @@ const EURO = '&euro; '
     </tr>
     </tbody>
 </table>
+
+<div id="accordion" class="mb-5">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-outline-info" data-toggle="collapse"
+                        data-target="#collapseOne" aria-expanded="true"
+                        aria-controls="collapseOne">
+                    See calculation of your price
+                </button>
+            </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+             data-parent="#accordion">
+            <div class="card-body">
+                <ol>
+                    <li>First we calculate which of your group discounts is the
+                        highest: </li>
+                    <li>Then we check your personal discount</li>
+                    <li>Bla bla bla</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -4,8 +4,8 @@ declare(strict_types=1);
 //var_dump($_POST);
 ?>
 
-<form method="get" class="mx-0, my-5">
-    <table class="form-group">
+<form method="get" class="mx-0, my-5 justify-content-center">
+    <table class="form-group mx-auto text-center">
         <tr>
             <th><label for="<?php echo CUSTOMER_TAG; ?>">Customer</label></th>
             <th><label for="<?php echo PRODUCT_TAG; ?>">Product</label></th>
@@ -25,7 +25,8 @@ declare(strict_types=1);
                 </select>
             </td>
             <td>
-                <select class="form-control" name="<?php echo PRODUCT_TAG; ?>"
+                <select class="form-control text-capitalize" name="<?php echo PRODUCT_TAG;
+                ?>"
                         id="<?php
                         echo
                         PRODUCT_TAG;
@@ -42,8 +43,3 @@ declare(strict_types=1);
         </tr>
     </table>
 </form>
-
-<?php //if(isset($newPrice)): ?>
-<!--<p>--><?php //echo $newPrice ?><!--</p>-->
-<!---->
-<?php //endif; ?>
