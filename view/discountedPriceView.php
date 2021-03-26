@@ -23,7 +23,7 @@ const EURO = '&euro; '
     <tr class="text-center">
         <td><?php echo '&euro; ' . number_format(($product->getPrice() / 100), 2) ?></td>
         <td><?php echo $quantity . " pieces"; ?></td>
-        <td><?php echo '&euro; '. number_format((float)$bulkPriceDsp, 2);?></td>
+        <td><?php echo '&euro; ' . number_format((float)$bulkPriceDsp, 2); ?></td>
         <td><?php
             echo ($customer->getCustomerDiscount()->isFixed()) ? EURO : '';
             echo number_format($customer->getCustomerDiscount()->getAmount(), 2);
@@ -53,13 +53,9 @@ const EURO = '&euro; '
 
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
              data-parent="#accordion">
-            <div class="card-body">
-                <ol>
-                    <li>First we calculate which of your group discounts is the
-                        highest: </li>
-                    <li>Then we check your personal discount</li>
-                    <li>Bla bla bla</li>
-                </ol>
+            <div class="card-body text-center">
+                <p>This part of our website is still under construction. It might be ready
+                    by the time Elon has planted his flag on Mars. No promises though...</p>
             </div>
         </div>
     </div>
