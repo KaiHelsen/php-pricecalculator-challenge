@@ -8,24 +8,24 @@ declare(strict_types=1);
 <form method="get">
     <table>
         <tr>
-            <th><label for="customerId">Customer</label></th>
-            <th><label for="productId">Customer</label></th>
+            <th><label for="<?php echo CUSTOMER_TAG; ?>">Customer</label></th>
+            <th><label for="<?php echo PRODUCT_TAG; ?>">Product</label></th>
         </tr>
         <tr>
             <td>
                 <?php if(isset($allCustomers, $allProducts)):?>
-                <select name="<?php echo self::CUSTOMER; ?>" id="customerId">
+                <select name="<?php echo CUSTOMER_TAG; ?>" id="<?php echo CUSTOMER_TAG; ?>">
                     <?php foreach ($allCustomers as $customer): ?>
-                        <option value="<?php echo $customer->getId(); ?>" <?php echo ($customer->getId() === (int)$GET['customerId']) ? 'selected' : ''; ?>><?php echo
+                        <option value="<?php echo $customer->getId(); ?>" <?php echo (isset($GET[CUSTOMER_TAG]) && $customer->getId() === (int)$GET[CUSTOMER_TAG]) ? 'selected' : ''; ?>><?php echo
                                 $customer->getFirstName().' '.$customer->getLastName();
                         ?></option>
                     <?php endforeach; ?>
                 </select>
             </td>
             <td>
-                <select name="productId" id="productId">
+                <select name="<?php echo PRODUCT_TAG; ?>" id="<?php echo PRODUCT_TAG; ?>">
                     <?php foreach ($allProducts as $product): ?>
-                        <option value="<?php echo $product->getId(); ?>" <?php echo ($product->getId() === (int)$GET['productId']) ? 'selected' : ''; ?>><?php echo $product->getName(); ?></option>
+                        <option value="<?php echo $product->getId(); ?>" <?php echo (isset($GET[PRODUCT_TAG]) && $product->getId() === (int)$GET[PRODUCT_TAG]) ? 'selected' : ''; ?>><?php echo $product->getName(); ?></option>
                     <?php endforeach;
                     endif;?>
                 </select>

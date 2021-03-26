@@ -16,6 +16,8 @@ use controller\priceCalcController;
 //declare a const once and reuse when needed. this allows for naming uniformity across the model
 const PAGE = 'page';
 const HOME = 'home';
+const CUSTOMER_TAG = 'customerId';
+const PRODUCT_TAG = 'productId';
 
 $controller = new priceCalcController();
 
