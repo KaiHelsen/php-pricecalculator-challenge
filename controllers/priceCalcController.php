@@ -35,9 +35,9 @@ class priceCalcController extends controller
         $allCustomers = CustomerLoader::fetchAllCustomers($this->pdo);
         $allProducts = ProductLoader::fetchAllProducts($this->pdo);
 
-        if (isset($GET[self::CUSTOMER_TAG], $GET[self::PRODUCT_TAG]))
-        {
-            $customer = CustomerLoader::fetchCustomer((int)$GET[self::CUSTOMER_TAG], $this->pdo);
+        if (isset($GET[self::CUSTOMER_TAG], $GET[self::PRODUCT_TAG])) {
+            $customer = CustomerLoader::fetchCustomer((int)$GET[self::CUSTOMER_TAG],
+                $this->pdo);
             $product = ProductLoader::fetchProduct((int)$GET[self::PRODUCT_TAG], $this->pdo);
 
             $groupDiscount = DiscountCalculator::calculateGroupDiscount((int)$product->getPrice(), $customer->getGroupDiscounts());
@@ -48,11 +48,9 @@ class priceCalcController extends controller
 
         require("view/includes/header.php");
         require("view/priceCalcView.php");
-        if (isset($newPrice))
-        {
+        if (isset($newPrice)) {
             require("view/discountedPriceView.php");
         }
         require("view/includes/footer.php");
     }
-
 }

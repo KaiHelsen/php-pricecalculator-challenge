@@ -40,7 +40,6 @@ class CustomerLoader
         foreach($rawCustomerData as $i=>$customer)
         {
             $customers[] = Customer::newCustomer((int)$customer['id'], $customer['firstName'], $customer['lastName']);
-
         }
         return $customers;
     }
