@@ -35,6 +35,13 @@ class CustomerLoader
     public static function fetchAllCustomers(PDO $pdo): array
     {
         $query = $pdo->query('select id, firstName, lastName from customer ORDER BY lastname, firstname');
-        return $query->fetchAll();
+        $rawCustomerData =  $query->fetchAll();
+        $customers = [];
+        foreach($rawCustomerData as $i=>$customer)
+        {
+            $customers[] = Customer::newCustomer((int)$customer['id'], $customer['firstName'], $customer['lastName']);
+
+        }
+        return $customers;
     }
 }

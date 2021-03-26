@@ -22,6 +22,11 @@ class Customer
         $this->customerDiscount = $customerDiscount;
     }
 
+    static public function newCustomer(int $id, string $firstName, string $lastName) : Customer
+    {
+        return new Customer($id, $firstName, $lastName, [], Discount::newFixedDiscount(0));
+    }
+
     public function getId(): int
     {
         return $this->id;
