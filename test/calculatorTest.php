@@ -39,7 +39,7 @@ final class calculatorTest extends TestCase
     public function testDiscountCalculator(float $expectedResult, int $price, Discount $discount, string $expectMsg): void
     {
         $calculator = new DiscountCalculator;
-        self::assertEquals($expectedResult, $calculator->calculate($price, $discount), $expectMsg);
+        self::assertEquals($expectedResult, $calculator::calculate($price, $discount), $expectMsg);
     }
 
     public function provideGroupDiscountTestData(): array
@@ -139,7 +139,7 @@ final class calculatorTest extends TestCase
     public function testGroupDiscount(Discount $expectedResult, int $price, array $discounts, string $expectMsg): void
     {
         $calculator = new DiscountCalculator;
-        self::assertEquals($expectedResult, $calculator->calculateGroupDiscount($price, $discounts), $expectMsg);
+        self::assertEquals($expectedResult, $calculator::calculateGroupDiscount($price, $discounts), $expectMsg);
     }
 
     public function provideFullDiscountTestData(): array
@@ -211,7 +211,7 @@ final class calculatorTest extends TestCase
     public function testFullDiscountCalculation(float $expectedResult, int $price, Discount $groupDiscount, Discount $customerDiscount, string $expectMsg): void
     {
         $calculator = new DiscountCalculator;
-        self::assertEquals($expectedResult, $calculator->calculateCustomerDiscount($price, $groupDiscount, $customerDiscount), $expectMsg);
+        self::assertEquals($expectedResult, $calculator::calculateCustomerDiscount($price, $groupDiscount, $customerDiscount), $expectMsg);
     }
 
 //    public function testDiscountCalculatorException(float $expectedResult, int $price, int $discount, string $type, string $expectedMsg) : void
