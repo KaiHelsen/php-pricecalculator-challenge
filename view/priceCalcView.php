@@ -14,10 +14,10 @@ declare(strict_types=1);
         <tr>
             <td>
                 <?php if(isset($allCustomers, $allProducts)):?>
-                <select name="customerId" id="customerId">
+                <select name="<?php echo self::CUSTOMER; ?>" id="customerId">
                     <?php foreach ($allCustomers as $customer): ?>
-                        <option value="<?php echo $customer['id']; ?>"><?php echo
-                                $customer['firstName'].' '.$customer['lastName'];
+                        <option value="<?php echo $customer->getId(); ?>" <?php echo ($customer->getId() === (int)$GET['customerId']) ? 'selected' : ''; ?>><?php echo
+                                $customer->getFirstName().' '.$customer->getLastName();
                         ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -25,7 +25,7 @@ declare(strict_types=1);
             <td>
                 <select name="productId" id="productId">
                     <?php foreach ($allProducts as $product): ?>
-                        <option value="<?php echo $product->getId(); ?>"><?php echo $product->getName(); ?></option>
+                        <option value="<?php echo $product->getId(); ?>" <?php echo ($product->getId() === (int)$GET['productId']) ? 'selected' : ''; ?>><?php echo $product->getName(); ?></option>
                     <?php endforeach;
                     endif;?>
                 </select>

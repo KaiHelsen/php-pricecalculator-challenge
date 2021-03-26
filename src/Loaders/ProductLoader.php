@@ -1,5 +1,10 @@
 <?php
+declare(strict_types=1);
 
+namespace Loaders;
+
+use Models\Product;
+use PDO;
 
 class ProductLoader
 {
@@ -10,7 +15,7 @@ class ProductLoader
         $query->execute();
         $rawProduct = $query->fetch();
 
-        return new Product($rawProduct['id'], $rawProduct['name'], $rawProduct['price']);
+        return new Product((int)$rawProduct['id'], $rawProduct['name'], (int)$rawProduct['price']);
     }
 
     /** @Product[] */
@@ -21,8 +26,8 @@ class ProductLoader
 
         $products = [];
         foreach ($rawProducts as $product) {
-            $products[] = new Product($product['id'], $product['name'],
-                $product['price']);
+            $products[] = new Product((int)$product['id'], $product['name'],
+                (int)$product['price']);
         }
 
         return $products;
