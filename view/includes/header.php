@@ -7,6 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <title>Kai & Marte's price calculator!</title>
+    <title><?php echo (isset($customer)?$customer->getFirstName() . " looking to buy: " .$product->getName(): "Kai & Marte's price calculator!");?></title>
 </head>
 <body>

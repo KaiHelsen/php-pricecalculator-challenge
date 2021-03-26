@@ -12,8 +12,8 @@ use PDO;
 
 class priceCalcController extends controller
 {
-    protected const CUSTOMER = 'customerId';
-    protected const PRODUCT = 'productId';
+    protected const CUSTOMER_TAG = 'customerId';
+    protected const PRODUCT_TAG = 'productId';
 
     private PDO $pdo;
 
@@ -34,10 +34,10 @@ class priceCalcController extends controller
         $allCustomers = CustomerLoader::fetchAllCustomers($this->pdo);
         $allProducts = ProductLoader::fetchAllProducts($this->pdo);
 
-        if (isset($GET['customerId']))
+        if (isset($GET[self::CUSTOMER_TAG], $GET[self::PRODUCT_TAG]))
         {
-            $customer = CustomerLoader::fetchCustomer((int)$GET['customerId'], $this->pdo);
-            $product = ProductLoader::fetchProduct((int)$GET['productId'], $this->pdo);
+            $customer = CustomerLoader::fetchCustomer((int)$GET[self::CUSTOMER_TAG], $this->pdo);
+            $product = ProductLoader::fetchProduct((int)$GET[self::PRODUCT_TAG], $this->pdo);
 
             $groupDiscount = DiscountCalculator::calculateGroupDiscount((int)$product->getPrice(), $customer->getGroupDiscounts());
 
@@ -45,7 +45,10 @@ class priceCalcController extends controller
             ($product->getPrice(), $groupDiscount, $customer->getCustomerDiscount());
         }
 
+        require ("view/includes/header.php");
         require("view/priceCalcView.php");
+
+        require ("view/includes/footer.php");
     }
 
 }
