@@ -45,11 +45,13 @@ class DiscountCalculator
     public static function calculate(int $price, Discount $discount): float|int
     {
         $discountValue = max(0, $discount->getAmount());
-        if ($discount->isFixed()) {
+        if ($discount->isFixed())
+        {
             return max(0, self::subtractFixed($price, $discountValue));
         }
 
-        if ($discount->isVariable()) {
+        if ($discount->isVariable())
+        {
             return max(0, self::subtractVariable($price, $discountValue));
         }
 
@@ -69,7 +71,8 @@ class DiscountCalculator
     Discount
     {
         //first, we have to make sure the price is not a negative value or zero.
-        if ($price <= 0) {
+        if ($price <= 0)
+        {
             throw new \RangeException('price cannot be zero or less than zero');
         }
 
@@ -77,19 +80,23 @@ class DiscountCalculator
         $fixedDiscount = 0;
 
         //next, we loop through the discounts and we add up all the fixed discounts and find the highest variable discount
-        foreach ($groupDiscounts as $discount) {
-            if ($discount->isVariable()) {
+        foreach ($groupDiscounts as $discount)
+        {
+            if ($discount->isVariable())
+            {
                 $variableDiscount = max($variableDiscount, $discount->getAmount());
             }
 
-            if ($discount->isFixed()) {
+            if ($discount->isFixed())
+            {
                 $fixedDiscount += $discount->getAmount();
             }
         }
 
         //next, we calculate what the final price would be with the resulting fixed and variable discounts and see which one gives us the lowest possible price.
         //based on the lowest price, we return a discount object that gives us the lowest possible price.
-        if (self::subtractFixed($price, $fixedDiscount) < self::subtractVariable($price, $variableDiscount)) {
+        if (self::subtractFixed($price, $fixedDiscount) < self::subtractVariable($price, $variableDiscount))
+        {
             return Discount::newFixedDiscount($fixedDiscount);
         }
         return Discount::newVariableDiscount($variableDiscount);
@@ -107,22 +114,26 @@ class DiscountCalculator
     {
         //if the group discount is Fixed, it will always be the first to be calculated.
         //so it doesn't matter if the customerdiscount is fixed or variable, it can always be done last.
-        if ($groupDiscount->isFixed()) {
+        if ($groupDiscount->isFixed())
+        {
             $result = self::calculate($price, $groupDiscount);
             $result = self::calculate($result, $customerDiscount);
             return $result / 100;
         }
 
         //if the group discount is Variable, we need to check if the customer discount is Fixed or Variable.
-        if ($groupDiscount->isVariable()) {
+        if ($groupDiscount->isVariable())
+        {
             //if the customer discount is fixed, the customer discount is calculated first, and the group discount second.
-            if ($customerDiscount->isFixed()) {
+            if ($customerDiscount->isFixed())
+            {
                 $result = self::calculate($price, $customerDiscount);
                 $result = self::calculate($result, $groupDiscount);
                 return $result / 100;
             }
             //if the customer discount is variable, we use the subtractmaxvariable function to easily find which of the two variable discounts is highest.
-            if ($customerDiscount->isVariable()) {
+            if ($customerDiscount->isVariable())
+            {
 //                return round(self::calculate($price,max($customerDiscount->getAmount(), $groupDiscount->getAmount())),2);
                 $result = round(min(self::calculate($price, $customerDiscount),
                     self::calculate($price, $groupDiscount)), 2);
@@ -132,5 +143,27 @@ class DiscountCalculator
 
         //if after all this, we have not returned a price yet, then something has obviously gone wrong and we throw an exception.
         throw new \InvalidArgumentException("you dun goofed!");
+    }
+
+    /** the calculateBulkDiscount function is made to calculate whether an object becomes cheaper depending on the amount of it that has been ordered
+     * it will decide this based on the quantity of the object and its original price, using internal logic to define when the price is lowered and by how much
+     * I mean sure, we could have some additional database columns to define whether an item gets a bulk discount, for how many items and how much, but I'm lazy and I like math.
+     * @param int $quantity
+     * @param int $price
+     * @return int the full price (with bulk discount) of the order, before customer and group discounts.
+     */
+    public static function calculateBulkDiscount(int $quantity, int $price): int
+    {
+        $bracket = floor(log10($quantity));
+
+        //I've never used a match before but this looks really convenient
+        return match ($bracket)
+        {
+            2 => $quantity * ($price - 10),
+            3 => $quantity * ($price - 30),
+            4 => $quantity * ($price - 50),
+            default => $quantity * $price,
+        };
+
     }
 }

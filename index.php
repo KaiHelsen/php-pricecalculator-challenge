@@ -18,6 +18,7 @@ const PAGE = 'page';
 const HOME = 'home';
 const CUSTOMER_TAG = 'customerId';
 const PRODUCT_TAG = 'productId';
+const QUANTITY_TAG = 'quantity';
 
 $controller = new priceCalcController();
 

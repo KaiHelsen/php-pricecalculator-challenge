@@ -234,4 +234,25 @@ final class calculatorTest extends TestCase
 //        self::assertEquals(20, $calculator->getMaxVariable([20, '10', 16, 2.5, 19.9, -25]), 'expect 20');
 //    }
 
+public function provideBulkDiscountData() : array
+{
+    return [
+        [200, 20, 10, 'expect 200'],
+        [1000, 100, 10, 'expect 1000'],
+        [9000, 100, 100, 'expect 9000'],
+    ];
+
 }
+
+    /** @dataProvider provideBulkDiscountData()
+     * @param int $expectedResult
+     * @param int $price
+     * @param int $quantity
+     * @param string $expectMsg
+     */
+    public function testCalculateBulkDiscount(int $expectedResult, int $price, int $quantity, string $expectMsg) : void
+    {
+        self::assertEquals($expectedResult, DiscountCalculator::calculateBulkDiscount($quantity, $price), $expectMsg);
+    }
+}
+

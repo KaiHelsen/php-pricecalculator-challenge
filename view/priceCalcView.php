@@ -9,6 +9,7 @@ declare(strict_types=1);
         <tr>
             <th><label for="<?php echo CUSTOMER_TAG; ?>">Customer</label></th>
             <th><label for="<?php echo PRODUCT_TAG; ?>">Product</label></th>
+            <th><label for="quantity">Quantity</label></th>
         </tr>
         <tr>
             <td>
@@ -35,6 +36,9 @@ declare(strict_types=1);
                     <?php endforeach;
                     endif; ?>
                 </select>
+            </td>
+            <td>
+                <input type="number" name="quantity" id="quantity" value="<?php echo $quantity; ?>" min="1" max="40000" required>
             </td>
             <td>
                 <button type="submit" class="btn btn-info">Submit!</button>
