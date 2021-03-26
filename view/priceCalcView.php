@@ -1,12 +1,11 @@
 <?php
-declare(strict_types=1); ?>
-<?php require("view/includes/header.php");
-//var_dump($allCustomers);
-var_dump($_POST);
+declare(strict_types=1);
+
+require("view/includes/header.php");
 ?>
 <h1>This is where we calculate things!</h1>
 
-<form method="post">
+<form method="get">
     <table>
         <tr>
             <th><label for 'customer'>Customer</label></th>

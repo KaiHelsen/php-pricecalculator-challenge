@@ -21,6 +21,7 @@ $controller = new priceCalcController();
 
 if (isset($GET[PAGE]))
 {
+    // switch case in case of multiple pages. This way we can easily expand our website
     switch ($_GET[PAGE])
     {
         //implement other cases here if appropriate
@@ -30,7 +31,6 @@ if (isset($GET[PAGE]))
             break;
     }
 }
-
 
 $controller->render($_GET, $_POST);
 

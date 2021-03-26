@@ -33,8 +33,8 @@ select *
 from discounts');
         $query->bindValue('groupId', $groupId);
         $query->execute();
-
         $rawDiscounts = $query->fetchAll();
+
         $groupDiscounts = [];
 
         foreach ($rawDiscounts as $discount) {
