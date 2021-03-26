@@ -38,7 +38,7 @@ declare(strict_types=1);
 
 </form>
 
-<?php if(isset($newPrice)): ?>
-<p><?php echo $newPrice ?></p>
-
-<?php endif; ?>
+<?php //if(isset($newPrice)): ?>
+<!--<p>--><?php //echo $newPrice ?><!--</p>-->
+<!---->
+<?php //endif; ?>

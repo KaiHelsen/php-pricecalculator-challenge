@@ -44,13 +44,11 @@ class priceCalcController extends controller
 
             $newPrice = DiscountCalculator::calculateCustomerDiscount
             ($product->getPrice(), $groupDiscount, $customer->getCustomerDiscount());
-
-            $show = true;
         }
 
         require("view/includes/header.php");
         require("view/priceCalcView.php");
-        if (isset($show))
+        if (isset($newPrice))
         {
             require("view/discountedPriceView.php");
         }
