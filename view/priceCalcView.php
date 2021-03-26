@@ -30,8 +30,8 @@ declare(strict_types=1);
                         echo
                         PRODUCT_TAG;
                         ?>">
-                    <?php foreach ($allProducts as $product): ?>
-                        <option value="<?php echo $product->getId(); ?>" <?php echo (isset($GET[PRODUCT_TAG]) && $product->getId() === (int)$GET[PRODUCT_TAG]) ? 'selected' : ''; ?>><?php echo $product->getName(); ?></option>
+                    <?php foreach ($allProducts as $currentProduct): ?>
+                        <option value="<?php echo $currentProduct->getId(); ?>" <?php echo (isset($GET[PRODUCT_TAG]) && $currentProduct->getId() === (int)$GET[PRODUCT_TAG]) ? 'selected' : ''; ?>><?php echo $currentProduct->getName(); ?></option>
                     <?php endforeach;
                     endif; ?>
                 </select>

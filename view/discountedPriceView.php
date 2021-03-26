@@ -1,12 +1,15 @@
 <?php
 declare(strict_types=1);
 
+const PERCENT = '%';
+const EURO = '&euro; '
+
 //var_dump($customer);
 ?>
 
 
 <table class="table mx-0, my-5">
-    <thead>
+    <thead class="text-center">
     <tr>
         <th scope="col">Price</th>
         <th scope="col">Personal Discount</th>
@@ -15,11 +18,19 @@ declare(strict_types=1);
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td><?php echo '&euro; '.$product->getPrice()/100?></td>
-        <td><?php echo '&euro; '.$customer->getCustomerDiscount()->getAmount()?></td>
-        <td><?php echo '&euro; '?></td>
-        <td><?php echo '&euro; '.$newPrice?></td>
+    <tr class="text-center">
+        <td><?php echo '&euro; ' . $product->getPrice() / 100 ?></td>
+        <td><?php
+            echo ($customer->getCustomerDiscount()->isFixed()) ? EURO : '';
+            echo $customer->getCustomerDiscount()->getAmount();
+            echo ($customer->getCustomerDiscount()->isVariable()) ? PERCENT : '';
+            ?></td>
+        <td><?php
+            echo ($groupDiscount->isFixed()) ? EURO : '';
+            echo $groupDiscount->getAmount();
+            echo ($groupDiscount->isVariable()) ? PERCENT : '';
+            ?></td>
+        <td><?php echo '&euro; ' . $newPrice ?></td>
     </tr>
     </tbody>
 </table>
