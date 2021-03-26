@@ -1,16 +1,15 @@
 <?php
-declare(strict_types=1); ?>
-<?php require("view/includes/header.php");
+declare(strict_types=1);
 //var_dump($allCustomers);
-var_dump($_POST);
+//var_dump($_POST);
 ?>
 <h1>This is where we calculate things!</h1>
 
-<form method="post">
+<form method="get">
     <table>
         <tr>
-            <th><label for 'customer'>Customer</label></th>
-            <th><label for 'customer'>Customer</label></th>
+            <th><label for="customerId">Customer</label></th>
+            <th><label for="productId">Customer</label></th>
         </tr>
         <tr>
             <td>
@@ -40,8 +39,8 @@ var_dump($_POST);
 </form>
 
 <?php if(isset($newPrice)): ?>
+<?php echo "customer Discount: " . $customerDiscountVal . ' of type ';
+echo "group discount: " . $groupDiscountVal; ?>
 <p><?php echo $newPrice ?></p>
 
-<?php
-endif;
-require("view/includes/footer.php"); ?>
+<?php endif; ?>
