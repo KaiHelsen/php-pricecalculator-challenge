@@ -32,7 +32,7 @@ class priceCalcController extends controller
 
         $allCustomers = CustomerLoader::fetchAllCustomers($this->pdo);
         $allProducts = ProductLoader::fetchAllProducts($this->pdo);
-        $quantity = $GET[QUANTITY_TAG] ? (int)$GET[QUANTITY_TAG] : 1;
+        $quantity = isset($GET[QUANTITY_TAG]) ? (int)$GET[QUANTITY_TAG] : 1;
 
         DiscountCalculator::calculateBulkDiscount(100,100);
 
